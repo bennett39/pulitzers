@@ -10,6 +10,17 @@ var schema = buildSchema(`
 `);
 var root = { hello: () => 'Hello world!' };
 
+require('dotenv').config();
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://bennett:" + process.env.MONGOPW + "@pulitzer39-dfmhp.mongodb.net/test?retryWrites=true";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  console.log(collection);
+  // perform actions on the collection object
+  client.close();
+});
+
 var app = express();
 app.use(cors());
 app.use(express.static('frontend/build'));
