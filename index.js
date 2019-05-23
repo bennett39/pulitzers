@@ -7,17 +7,16 @@ var schema = buildSchema(`
     hello: String
   }
 `);
-
 var root = { hello: () => 'Hello world!' };
 
 var app = express();
-
 app.use(express.static('frontend/build'));
-
 app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: root,
   graphiql: true,
 }));
-
-app.listen(4000, () => console.log('Now browse to localhost:4000'));
+app.get('/', (req, res) => {
+  res.sendFile('index.html')
+});
+app.listen(4000, () => console.log('Listening at localhost:4000'));
