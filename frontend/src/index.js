@@ -12,17 +12,10 @@ const client = new ApolloClient({
 });
 
 const GqlHello = () => (
-  <Query
-    query={gql`
-      {
-        hello
-      }
-    `}
-  >
+  <Query query={gql` { hello } `} >
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
-
       return data.hello;
     }}
   </Query>
