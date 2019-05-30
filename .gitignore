@@ -2,3 +2,5 @@ node_modules/
 build/
 *.swp
 .env
+*.sqlite3
+__pycache__/
