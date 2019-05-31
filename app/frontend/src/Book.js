@@ -4,7 +4,9 @@ import './Book.css';
 function BookCard(props) {
   return (
     <div className="card">
-      {props.year_won}: {props.title} - {props.author}
+      <h2>{props.title}</h2>
+      <p>{props.author}</p>
+      <p><em>{props.year_won}</em></p>
     </div>
   );
 }
@@ -40,11 +42,18 @@ class BookList extends React.Component {
       return <div>Loading...</div>
     } else {
       return (
-        <section class="cards">
-          {books.map(book => (
-            <BookCard year_won={book.year_won} title={book.title} author={book.author} />
-          ))}
-        </section>
+        <div className="centered">
+          <section className="cards">
+            {books.map(book => (
+              <BookCard
+                key={book.id}
+                year_won={book.year_won}
+                title={book.title}
+                author={book.author}
+              />
+            ))}
+          </section>
+        </div>
       );
     }
   }
