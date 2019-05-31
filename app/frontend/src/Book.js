@@ -1,8 +1,9 @@
 import React from 'react';
+import './Book.css';
 
 function BookCard(props) {
   return (
-    <div>
+    <div className="card">
       {props.year_won}: {props.title} - {props.author}
     </div>
   );
@@ -39,11 +40,11 @@ class BookList extends React.Component {
       return <div>Loading...</div>
     } else {
       return (
-        <div>
+        <section class="cards">
           {books.map(book => (
             <BookCard year_won={book.year_won} title={book.title} author={book.author} />
           ))}
-        </div>
+        </section>
       );
     }
   }
