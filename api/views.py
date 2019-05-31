@@ -9,5 +9,5 @@ class AuthorViewSet(viewsets.ModelViewSet):
     serializer_class = AuthorSerializer
 
 class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.all().order_by('year_won')
+    queryset = Book.objects.all().order_by('-year_won')
     serializer_class= BookSerializer
