@@ -1,9 +1,6 @@
 import React from 'react';
 import './Book.css';
-
-function Checkbox (props) {
-  return <input type="checkbox" {...props} />;
-}
+import Checkbox from './Checkbox.js';
 
 function BookCard(props) {
   return (
@@ -95,4 +92,3 @@ class BookList extends React.Component {
 }
 
 export default BookList
-
