@@ -1,15 +1,19 @@
 import React from 'react';
 import './Book.css';
 
+function Checkbox (props) {
+  return <input type="checkbox" {...props} />;
+}
+
 function BookCard(props) {
   return (
     <div className="card">
       <h2>{props.title}</h2>
       <p>{props.author}</p>
       <p><em>{props.year_won}</em></p>
-      <button onClick={props.onClick}>
-        {props.completed ? "I haven't read this" : "I have read this"}
-      </button>
+      <label>
+        <Checkbox checked={props.completed} onChange={props.onClick} />
+      </label>
     </div>
   );
 }
@@ -48,7 +52,7 @@ class BookList extends React.Component {
         payload['completed'] = books[i]['completed']
       }
     }
-    console.log('Sending ' + payload['completed'] + ' to ' + url);
+    console.log('Sending {"completed": ' + payload['completed'] + '"} to ' + url);
     fetch(url, {
       method: 'PATCH',
       headers: {
