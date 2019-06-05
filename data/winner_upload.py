@@ -4,7 +4,7 @@ import csv
 
 books = []
 
-with open('winners.txt') as f:
+with open('winners.csv') as f:
     csv_reader = csv.reader(f, delimiter=',')
     count = 0
     for row in csv_reader:
