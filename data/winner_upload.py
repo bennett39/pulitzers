@@ -6,10 +6,10 @@ books = []
 
 with open('winners.csv') as f:
     csv_reader = csv.reader(f, delimiter=',')
-    count = 0
+    first_row = True
     for row in csv_reader:
-        if count == 0:
-            count += 1
+        if first_row:
+            first_row = False
             continue
         books.append({
             'year': row[0],
@@ -18,20 +18,9 @@ with open('winners.csv') as f:
             'author_first': row[2],
             'author_last': row[3]
         })
-        count += 1
 
 authors = {}
-url = 'http://127.0.0.1:8000/api/'
-
-#  for book in books:
-    #  payload = {
-        #  'title': book['title'],
-        #  'author': url + 'authors/6/',
-        #  'completed': False,
-        #  'year_won': book['year']
-    #  }
-    #  r = requests.post(url + 'books/', json=payload)
-
+url = 'http://pulitzer39.herokuapp.com/api/'
 
 for book in books:
     if book['author_full'] not in authors:
@@ -47,7 +36,7 @@ for book in books:
     author_id = authors[book['author_full']]
     payload = {
         'title': book['title'],
-        'author': url + 'authors/' + str(author_id) + '/',
+        'author': url + 'authors' + str(author_id) + '/',
         'completed': False,
         'year_won': book['year']
     }

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from .serializers import AuthorSerializer, BookSerializer
+from .serializers import AuthorSerializer, BookSerializer, UploadSerializer
 from .models import Author, Book
 
 
@@ -11,3 +11,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all().order_by('-year_won')
     serializer_class= BookSerializer
+
+class UploadViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all().order_by('-year_won')
+    serializer_class = UploadSerializer
