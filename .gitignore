@@ -4,3 +4,10 @@ build/
 .env
 *.sqlite3
 __pycache__/
+
+### Django ###
+*.log
+*.pot
+*.pyc
+local_settings.py
+
