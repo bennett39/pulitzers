@@ -21,13 +21,14 @@ class BookList extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      api_url: "/api/books/",
+      books_url: "/api/books/",
+      profile_url: "/api/profiles/",
       books: []
     };
   }
 
   componentDidMount() {
-    fetch(this.state.api_url)
+    fetch(this.state.books_url)
       .then(res => res.json())
       .then(
         (result) => {
