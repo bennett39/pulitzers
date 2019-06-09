@@ -5,7 +5,7 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r'authors', views.AuthorViewSet)
 router.register(r'books', views.BookViewSet)
-router.register(r'upload', views.UploadViewSet)
+#  router.register(r'upload', views.UploadViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

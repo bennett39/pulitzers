@@ -13,7 +13,8 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ('id', 'title', 'author', 'author_id', 'completed', 'year_won')
 
-class UploadSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Book
-        fields = ('title', 'author', 'completed', 'year_won')
+# Serializer only used for initial data upload
+#  class UploadSerializer(serializers.HyperlinkedModelSerializer):
+    #  class Meta:
+        #  model = Book
+        #  fields = ('title', 'author', 'completed', 'year_won')
