@@ -36,8 +36,8 @@ for book in books:
     author_id = authors[book['author_full']]
     payload = {
         'title': book['title'],
-        'author': url + 'authors' + str(author_id) + '/',
+        'author': url + 'authors/' + str(author_id) + '/',
         'completed': False,
         'year_won': book['year']
     }
-    r = requests.post(url + 'books/', json=payload)
+    r = requests.post(url + 'upload/', json=payload)
