@@ -21,7 +21,7 @@ class BookList extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      api_url: "http://127.0.0.1:8000/api/books/",
+      api_url: "/api/books/",
       books: []
     };
   }
