@@ -21,20 +21,31 @@ class BookList extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      books_url: "/api/books/",
-      profile_url: "/api/profiles/",
-      books: []
+      hasUser: false,
+      host: 'http://127.0.0.1:8000',
+      books: [],
+      userInfo: [],
     };
   }
 
   componentDidMount() {
-    fetch(this.state.books_url)
+    fetch(this.state.host + '/api/books/')
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
-            isLoaded: true,
-            books: result
+            books: result,
+            isLoaded: true
+          });
+        }
+      )
+    fetch(this.state.host + '/api/user/')
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            userInfo: result,
+            hasUser: true,
           });
         }
       )
@@ -66,11 +77,13 @@ class BookList extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, books } = this.state;
+    const { error, isLoaded, hasUser, books, userInfo } = this.state;
     if (error) {
-      return <div>Error: {error.message}</div>
+      return <h2>Error: {error.message}</h2>
     } else if (!isLoaded) {
-      return <div>Loading...</div>
+      return <h2>Loading...</h2>
+    } else if (!hasUser) {
+      return <h2>Please Log In</h2>
     } else {
       return (
         <div className="centered">
@@ -81,7 +94,7 @@ class BookList extends React.Component {
                 year_won={book.year_won}
                 title={book.title}
                 author={book.author}
-                completed={book.completed}
+                completed={book.id in userInfo.books_read ? true : false}
                 onClick={() => this.toggle(book.id)}
               />
             ))}

@@ -9,16 +9,11 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
         model = Author
         fields = ('id', 'first_name', 'last_name')
 
-#  class BookSerializer(serializers.ModelSerializer):
-    #  author = serializers.StringRelatedField(many=False)
-    #  class Meta:
-        #  model = Book
-        #  fields = ('id', 'title', 'author', 'author_id', 'completed', 'year_won')
-
-class BookSerializer(serializers.HyperlinkedModelSerializer):
+class BookSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField(many=False)
     class Meta:
         model = Book
-        fields = ('title', 'author', 'completed', 'year_won')
+        fields = ('title', 'author', 'year_won')
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

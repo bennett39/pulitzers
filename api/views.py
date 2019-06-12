@@ -25,4 +25,9 @@ class BookViewSet(viewsets.ModelViewSet):
 def current_user(request):
     user = request.user
     profile = Profile.objects.filter(user=user).first()
-    return Response({ 'user_id': user.id, 'profile_id': profile.id })
+    books_read = profile.books_read.all()
+    return Response({
+        'user_id': user.id,
+        'profile_id': profile.id,
+        'books_read': [book.id for book in books_read]
+    })

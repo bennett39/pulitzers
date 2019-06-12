@@ -59,6 +59,8 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+LOGIN_REDIRECT_URL = '/'
+
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [
