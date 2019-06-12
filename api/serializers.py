@@ -13,7 +13,7 @@ class BookSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(many=False)
     class Meta:
         model = Book
-        fields = ('title', 'author', 'year_won')
+        fields = ('id', 'title', 'author', 'year_won')
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

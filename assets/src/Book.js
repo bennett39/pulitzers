@@ -83,8 +83,9 @@ class BookList extends React.Component {
     } else if (!isLoaded) {
       return <h2>Loading...</h2>
     } else if (!hasUser) {
-      return <h2>Please Log In</h2>
+      return <h2>Please <a href="/accounts/login/">Log In</a></h2>
     } else {
+      console.log(books, userInfo.books_read);
       return (
         <div className="centered">
           <section className="cards">
@@ -94,10 +95,12 @@ class BookList extends React.Component {
                 year_won={book.year_won}
                 title={book.title}
                 author={book.author}
-                completed={book.id in userInfo.books_read ? true : false}
+                completed={userInfo.books_read.includes(book.id) ? true : false}
                 onClick={() => this.toggle(book.id)}
               />
-            ))}
+            )
+        )
+      }
           </section>
         </div>
       );

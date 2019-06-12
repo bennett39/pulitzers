@@ -16,6 +16,14 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all().order_by('-year_won')
     serializer_class = BookSerializer
 
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 #  class UploadViewSet(viewsets.ModelViewSet):
     #  queryset = Book.objects.all().order_by('-year_won')
     #  serializer_class = UploadSerializer
