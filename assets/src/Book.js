@@ -22,14 +22,30 @@ class BookList extends React.Component {
       error: null,
       isLoaded: false,
       hasUser: false,
-      host: 'http://127.0.0.1:8000',
+      csrftoken: null,
       books: [],
       userInfo: [],
     };
   }
 
   componentDidMount() {
-    fetch(this.state.host + '/api/books/')
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    this.setState({csrftoken: getCookie('csrftoken')});
+    fetch('/api/books/')
       .then(res => res.json())
       .then(
         (result) => {
@@ -39,7 +55,7 @@ class BookList extends React.Component {
           });
         }
       )
-    fetch(this.state.host + '/api/user/')
+    fetch('/api/user/')
       .then(res => res.json())
       .then(
         (result) => {
@@ -51,29 +67,40 @@ class BookList extends React.Component {
       )
   }
 
-  toggle(bookId) {
-    let url = this.state.api_url + bookId.toString() + '/';
-    let books = this.state.books.slice();
-    let payload = {'completed': null};
-    for (let i = 0; i < books.length; i++) {
-      if (books[i]['id'] === bookId) {
-        books[i]['completed'] = !books[i]['completed']
-        payload['completed'] = books[i]['completed']
-      }
+  toggle(bookId, userInfo) {
+    let books_payload = []
+    if (userInfo.books_read.includes(bookId)) {
+      books_payload = userInfo.books_read.filter(book_id => book_id != bookId)
+    } else {
+      userInfo.books_read.push(bookId)
+      books_payload = userInfo.books_read.slice()
     }
-    console.log('Sending {"completed": ' + payload['completed'] + '"} to ' + url);
+    this.setState({
+      userInfo: {
+        "user_id": userInfo.user_id,
+        "profile_id": userInfo.profile_id,
+        "books_read": books_payload
+      }
+    })
+
+    let url = '/api/profiles/' + userInfo.profile_id.toString() + '/';
+    let payload = {
+      user: '/api/users/' + userInfo.user_id.toString() + '/',
+      books_read: books_payload.map(book => (
+        '/api/books/' + book.toString() + '/'
+      ))
+    };
+    console.log('Sending ' + JSON.stringify(payload) + ' to ' + url);
     fetch(url, {
-      method: 'PATCH',
+      method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRFToken': this.state.csrftoken
       },
       body: JSON.stringify(payload),
     }).then(res => res.json())
     .then(response => console.log('Success: ', JSON.stringify(response)))
     .catch(error => console.error('Error: ', error));
-    this.setState({
-      books: books,
-    });
   }
 
   render() {
@@ -85,7 +112,6 @@ class BookList extends React.Component {
     } else if (!hasUser) {
       return <h2>Please <a href="/accounts/login/">Log In</a></h2>
     } else {
-      console.log(books, userInfo.books_read);
       return (
         <div className="centered">
           <section className="cards">
@@ -96,7 +122,7 @@ class BookList extends React.Component {
                 title={book.title}
                 author={book.author}
                 completed={userInfo.books_read.includes(book.id) ? true : false}
-                onClick={() => this.toggle(book.id)}
+                onClick={() => this.toggle(book.id, userInfo)}
               />
             )
         )
